@@ -1,0 +1,4 @@
+Doctor: What brings you here today?
+Patient: I have had a headache for three days.
+Doctor: Any fever?
+Patient: No.
