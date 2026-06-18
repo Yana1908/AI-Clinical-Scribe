@@ -1,0 +1,4 @@
+Convert the following conversation into SOAP format.
+
+Conversation:
+{transcript}
