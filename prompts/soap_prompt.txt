@@ -1,4 +1,9 @@
-Convert the following conversation into SOAP format.
+Convert the following doctor-patient conversation into a SOAP note.
+
+Subjective:
+Objective:
+Assessment:
+Plan:
 
 Conversation:
 {transcript}
