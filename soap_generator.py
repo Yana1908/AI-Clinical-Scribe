@@ -1,16 +1,15 @@
-from pathlib import Path
+soap_note = """
+Subjective:
+Patient reports headache for 3 days.
 
-transcript = Path(
-    "transcripts/sample_transcript.txt"
-).read_text()
+Objective:
+No fever reported.
 
-prompt = Path(
-    "prompts/soap_prompt.txt"
-).read_text()
+Assessment:
+Possible mild headache.
 
-final_prompt = prompt.replace(
-    "{transcript}",
-    transcript
-)
+Plan:
+Take paracetamol and stay hydrated.
+"""
 
-print(final_prompt)
+print(soap_note)
