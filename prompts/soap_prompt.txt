@@ -1,9 +1,18 @@
-Convert the following doctor-patient conversation into a SOAP note.
+You are a medical assistant.
+
+Convert the following doctor-patient conversation into SOAP format.
 
 Subjective:
+- Symptoms reported by patient
+
 Objective:
+- Vital signs and observations
+
 Assessment:
+- Doctor's diagnosis
+
 Plan:
+- Medicines, tests, follow-up
 
 Conversation:
 {transcript}
