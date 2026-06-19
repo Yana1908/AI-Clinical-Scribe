@@ -9,8 +9,8 @@ def home():
 @app.get("/soap")
 def soap():
     return {
-        "Subjective":"Patient reports headache",
+        "Subjective":"Headache for 3 days",
         "Objective":"No fever",
         "Assessment":"Mild headache",
-        "Plan":"Hydration"
+        "Plan":"Paracetamol"
     }
