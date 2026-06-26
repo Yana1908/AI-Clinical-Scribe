@@ -1,9 +1,0 @@
-R51 - Headache
-
-J00 - Common Cold
-
-R05 - Cough
-
-J02.9 - Acute Pharyngitis
-
-I10 - Essential Hypertension
