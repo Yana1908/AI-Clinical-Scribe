@@ -1,0 +1,6 @@
+R51 - Headache
+R05 - Cough
+J00 - Common Cold
+J02.9 - Acute Pharyngitis
+I10 - Essential Hypertension
+E11 - Type 2 Diabetes
