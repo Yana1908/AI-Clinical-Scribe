@@ -1,247 +1,320 @@
-# 🩺 AI Clinical Scribe
+# 🩺 AI Clinical Scribe & Automated SOAP Note Generator
 
-An AI-powered Clinical Scribe system that converts doctor-patient conversations into structured clinical documentation. The project uses Automatic Speech Recognition (ASR), Speaker Diarization, Prompt Engineering, and Retrieval-Augmented Generation (RAG) to assist in generating SOAP notes and suggesting ICD-10 codes.
+## 📌 Project Overview
 
----
+AI Clinical Scribe is a healthcare AI application that automatically converts doctor-patient conversations into structured clinical notes and recommends ICD-10 medical codes.
 
-## 📌 Project Objective
-
-The goal of this project is to automate medical documentation by:
-
-- Converting doctor-patient audio into text.
-- Identifying different speakers (Doctor & Patient).
-- Generating structured SOAP notes.
-- Suggesting ICD-10 diagnosis codes using a medical knowledge base.
+This project was developed as part of my AI Internship.
 
 ---
 
-## 🚀 Technologies Used
+# 🚀 Features
 
-- Python 3.11
-- FastAPI
-- OpenAI Whisper
-- Pyannote Audio
-- Hugging Face
-- Sentence Transformers
-- FAISS
-- Git & GitHub
+## ✅ Week 1 - Audio Processing
 
----
-
-# 📂 Project Structure
-
-```
-AI_Clinical_Scribe/
-│
-├── audio/
-│   ├── sample.wav
-│   └── sample.mp3
-│
-├── data/
-│   ├── cleaned_data.csv
-│   └── CombinedData.csv
-│
-├── medical_docs/
-│   └── icd_reference.txt
-│
-├── prompts/
-│   └── soap_prompt.txt
-│
-├── rag/
-│   ├── rag_pipeline.py
-│   └── icd_mapper.py
-│
-├── transcripts/
-│
-├── outputs/
-│
-├── main.py
-├── soap_generator.py
-├── test_whisper.py
-├── test_diarization.py
-├── load_data.py
-├── clean_data.py
-├── requirements.txt
-└── README.md
-```
-
----
-
-# ✅ Week 1 - Audio Ingestion & Speaker Diarization
-
-### Completed Tasks
-
+- Audio ingestion
 - FastAPI backend setup
-- Audio preprocessing
-- Speech-to-Text using Whisper
-- Speaker Diarization using Pyannote
-- Audio testing
-- GitHub integration
-
-### Output
-
-Doctor-Patient audio is converted into text and speakers are identified separately.
+- Whisper Speech-to-Text
+- Speaker Diarization using PyAnnote
+- Doctor & Patient speaker separation
 
 ---
 
-# ✅ Week 2 - Prompt Engineering & SOAP Generation
+## ✅ Week 2 - SOAP Note Generation
 
-### Completed Tasks
+- Prompt Engineering
+- Clinical transcript processing
+- SOAP Note generation
 
-- Designed SOAP Prompt Template
-- Stored transcripts
-- Integrated transcript with prompt
-- Generated structured SOAP Notes
-- Developed FastAPI SOAP endpoint
-
-### SOAP Format
+SOAP Format:
 
 - Subjective
 - Objective
 - Assessment
 - Plan
 
-### API Endpoint
+FastAPI endpoint:
 
 ```
 GET /soap
 ```
 
-### Sample Output
+Returns SOAP Note in JSON format.
 
-```json
-{
-  "Subjective": "Headache for 3 days",
-  "Objective": "No fever",
-  "Assessment": "Mild headache",
-  "Plan": "Paracetamol"
-}
+---
+
+## ✅ Week 3 - RAG for ICD-10 Recommendation
+
+Implemented Retrieval-Augmented Generation (RAG).
+
+Workflow:
+
+SOAP Assessment
+↓
+
+Sentence Transformer Embedding
+↓
+
+FAISS Vector Search
+↓
+
+Nearest ICD-10 Match
+↓
+
+ICD Recommendation
+
+Current Features:
+
+- ICD-10 Dataset
+- FAISS Vector Database
+- Sentence Transformers
+- Semantic Search
+- Automatic ICD Recommendation
+
+Example:
+
+Assessment:
+
+```
+Hypertension
+```
+
+Output:
+
+```
+Disease : Hypertension
+
+ICD10 : I10
+
+Description : High blood pressure
 ```
 
 ---
 
-# ✅ Week 3 - Clinical Intelligence Layer (RAG)
-
-### Completed Tasks
-
-- Created Medical Knowledge Base
-- Added ICD-10 Reference File
-- Implemented Basic ICD Mapping
-- Built RAG Project Structure
-- Added ICD Recommendation API
-
-### API Endpoint
+# 🏗 Project Structure
 
 ```
-GET /icd
-```
+AI_Clinical_Scribe/
 
-### Sample Output
+│
 
-```json
-{
-  "diagnosis": "Headache",
-  "icd10_code": "R51"
-}
-```
+├── audio/
 
----
+├── data/
 
-# 🔄 System Workflow
+├── medical_docs/
 
-```
-Doctor-Patient Audio
-          │
-          ▼
-OpenAI Whisper
-(Speech-to-Text)
-          │
-          ▼
-Transcript
-          │
-          ▼
-SOAP Prompt
-          │
-          ▼
-SOAP Note Generator
-          │
-          ▼
-FastAPI Backend
-          │
-          ▼
-JSON Response
-          │
-          ▼
-RAG Module
-          │
-          ▼
-ICD-10 Recommendation
+│ └── icd10.csv
+
+│
+
+├── prompts/
+
+│ └── soap_prompt.txt
+
+│
+
+├── rag/
+
+│ ├── vector_store.py
+
+│ ├── retrieve_icd.py
+
+│ └── rag_pipeline.py
+
+│
+
+├── transcripts/
+
+├── vector_db/
+
+│ ├── icd10.index
+
+│ └── icd10.pkl
+
+│
+
+├── diarize_audio.py
+
+├── soap_generator.py
+
+├── test_whisper.py
+
+├── main.py
+
+├── requirements.txt
+
+└── README.md
 ```
 
 ---
 
-# ▶️ Running the Project
+# ⚙ Technologies Used
 
-### Clone Repository
+- Python 3.11
+- FastAPI
+- OpenAI Whisper
+- PyAnnote
+- Hugging Face
+- Sentence Transformers
+- FAISS
+- Pandas
+- NumPy
 
-```bash
-git clone <repository-url>
+---
+
+# ▶ Installation
+
+Clone repository
+
+```
+git clone https://github.com/Yana1908/AI-Clinical-Scribe.git
+```
+
+Go to project
+
+```
 cd AI_Clinical_Scribe
 ```
 
-### Create Virtual Environment
+Create Virtual Environment
 
-```bash
-python -m venv venv311
+Windows
+
 ```
+python -m venv venv311
 
-### Activate Environment
-
-Windows:
-
-```bash
 venv311\Scripts\activate
 ```
 
-### Install Requirements
+Install Dependencies
 
-```bash
+```
 pip install -r requirements.txt
 ```
 
-### Run FastAPI
+---
 
-```bash
-python -m uvicorn main:app --reload
+# ▶ Run Project
+
+Start FastAPI
+
+```
+uvicorn main:app --reload
 ```
 
-Open:
+Open Swagger UI
 
 ```
 http://127.0.0.1:8000/docs
 ```
 
+Click
+
+```
+GET /soap
+```
+
+Execute the endpoint to generate:
+
+- SOAP Note
+- ICD-10 Recommendation
+
 ---
 
-# 📌 API Endpoints
+# 📊 API Response
 
-| Method | Endpoint | Description |
-|---------|----------|-------------|
-| GET | / | Home API |
-| GET | /soap | Generate SOAP Note |
-| GET | /icd | Recommend ICD-10 Code |
+```json
+{
+  "SOAP_Note": {
+    "Subjective": "Patient has high blood pressure.",
+    "Objective": "Blood Pressure is 150/100.",
+    "Assessment": "Hypertension",
+    "Plan": "Amlodipine"
+  },
+  "ICD_Recommendation": {
+    "Disease": "Hypertension",
+    "ICD10": "I10",
+    "Description": "High blood pressure"
+  }
+}
+```
 
 ---
 
-# 🎯 Future Improvements
+# 🔄 Project Workflow
 
-- Real-time audio transcription
-- Improved speaker diarization accuracy
-- LLM-powered SOAP note generation
-- Advanced RAG with vector database
-- Human-in-the-loop dashboard
-- Secure authentication
-- EHR integration
+Doctor-Patient Audio
+
+↓
+
+Whisper ASR
+
+↓
+
+Speaker Diarization
+
+↓
+
+Transcript
+
+↓
+
+SOAP Note Generation
+
+↓
+
+Assessment Extraction
+
+↓
+
+Sentence Transformer
+
+↓
+
+FAISS Search
+
+↓
+
+ICD-10 Recommendation
+
+↓
+
+FastAPI JSON Response
+
+---
+
+# 📅 Internship Progress
+
+## ✅ Week 1
+
+- Audio ingestion
+- Whisper integration
+- Speaker diarization
+- FastAPI setup
+
+## ✅ Week 2
+
+- Prompt engineering
+- SOAP note generation
+- FastAPI SOAP endpoint
+
+## ✅ Week 3
+
+- ICD-10 dataset preparation
+- Vector embeddings
+- FAISS indexing
+- Semantic search
+- RAG integration
+- Automatic ICD recommendation
+
+## 🔜 Week 4 (Upcoming)
+
+- Human-in-the-loop Dashboard
+- Doctor review and editing
+- Final SOAP approval
+- Streamlit/React UI
+- Security improvements
 
 ---
 
@@ -251,11 +324,17 @@ http://127.0.0.1:8000/docs
 
 AI Clinical Scribe Internship Project
 
+GitHub:
+https://github.com/Yana1908
+
 ---
 
-# ⭐ Project Status
+## ⭐ Future Improvements
 
-- ✅ Week 1 Completed
-- ✅ Week 2 Completed
-- 🚧 Week 3 In Progress
-- ⏳ Week 4 Pending
+- Real-time audio streaming
+- LLM-generated SOAP Notes
+- Clinical summarization
+- Multiple ICD recommendations
+- Dashboard for doctors
+- EHR Integration
+- Secure authentication
