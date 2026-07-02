@@ -7,10 +7,10 @@ from sentence_transformers import SentenceTransformer
 # --------------------------
 
 soap_note = {
-    "Subjective": "Patient has had headache for three days.",
-    "Objective": "No fever. Blood pressure normal.",
-    "Assessment": "Mild headache",
-    "Plan": "Paracetamol and rest"
+    "Subjective": "Patient has high blood pressure",
+    "Objective": "BP 150/100",
+    "Assessment": "Hypertension",
+    "Plan": "Amlodipine"
 }
 
 # --------------------------
