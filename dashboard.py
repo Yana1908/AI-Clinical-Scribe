@@ -13,13 +13,27 @@ st.text_area(
 
 st.subheader("SOAP Note")
 
-st.json({
-    "Subjective":"Headache for 3 days",
-    "Objective":"No fever",
-    "Assessment":"Hypertension",
-    "Plan":"Amlodipine"
-})
+subjective = st.text_area(
+    "Subjective",
+    "Headache for 3 days"
+)
 
+objective = st.text_area(
+    "Objective",
+    "No fever"
+)
+
+assessment = st.text_area(
+    "Assessment",
+    "Hypertension"
+)
+
+plan = st.text_area(
+    "Plan",
+    "Amlodipine"
+)
 st.subheader("ICD Recommendation")
 
 st.success("I10 - Hypertension")
+if st.button("Approve SOAP Note"):
+    st.success("SOAP Note Approved Successfully ✅")
