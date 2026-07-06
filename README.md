@@ -337,4 +337,8 @@ https://github.com/Yana1908
 - Multiple ICD recommendations
 - Dashboard for doctors
 - EHR Integration
+<<<<<<< HEAD
 - Secure authentication
+=======
+- Secure authentication
+>>>>>>> 8a7fff9e582a8d8c63eafddb8a1c2a1e5172d4c8
