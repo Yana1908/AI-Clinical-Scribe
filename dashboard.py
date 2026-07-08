@@ -1,5 +1,7 @@
 import streamlit as st
 import requests
+import json
+import os
 
 st.set_page_config(page_title="AI Clinical Scribe", page_icon="🏥")
 
@@ -60,14 +62,26 @@ try:
         )
 
         # ----------------------------
+        # Final SOAP Note
+        # ----------------------------
+
+        final_note = {
+            "Subjective": subjective,
+            "Objective": objective,
+            "Assessment": assessment,
+            "Plan": plan
+        }
+
+        # ----------------------------
         # ICD Recommendation
         # ----------------------------
-        icd = data["ICD_Recommendation"]
 
         st.subheader("ICD Recommendation")
 
         st.success(f"{icd['ICD10']} - {icd['Disease']}")
+
         st.write("Description:")
+
         st.write(icd["Description"])
 
         # ----------------------------
@@ -75,13 +89,23 @@ try:
         # ----------------------------
 
         if st.button("Approve SOAP Note"):
-
             st.success("SOAP Note Approved Successfully ✅")
 
-    else:
+        # ----------------------------
+        # Save Final SOAP Note
+        # ----------------------------
 
+        if st.button("Save Final SOAP Note"):
+
+            os.makedirs("outputs", exist_ok=True)
+
+            with open("outputs/final_soap.json", "w") as file:
+                json.dump(final_note, file, indent=4)
+
+            st.success("Final SOAP Note Saved Successfully!")
+
+    else:
         st.error("Could not connect to FastAPI.")
 
 except Exception:
-
     st.error("FastAPI Server is not running.\n\nFirst run:\nuvicorn main:app --reload")
