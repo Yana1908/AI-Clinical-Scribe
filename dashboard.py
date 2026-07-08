@@ -1,39 +1,86 @@
 import streamlit as st
+import requests
+
+st.set_page_config(page_title="AI Clinical Scribe", page_icon="🏥")
 
 st.title("🏥 AI Clinical Scribe Dashboard")
 
 st.write("Welcome Doctor!")
 
-st.subheader("Transcript")
+# ----------------------------
+# Get data from FastAPI
+# ----------------------------
 
-st.text_area(
-    "Conversation",
-    "Doctor: What is your problem?\nPatient: I have headache for three days."
-)
+try:
+    response = requests.get("http://127.0.0.1:8000/soap")
 
-st.subheader("SOAP Note")
+    if response.status_code == 200:
 
-subjective = st.text_area(
-    "Subjective",
-    "Headache for 3 days"
-)
+        data = response.json()
 
-objective = st.text_area(
-    "Objective",
-    "No fever"
-)
+        soap = data["SOAP_Note"]
+        icd = data["ICD_Recommendation"]
 
-assessment = st.text_area(
-    "Assessment",
-    "Hypertension"
-)
+        # ----------------------------
+        # Transcript
+        # ----------------------------
 
-plan = st.text_area(
-    "Plan",
-    "Amlodipine"
-)
-st.subheader("ICD Recommendation")
+        st.subheader("Transcript")
 
-st.success("I10 - Hypertension")
-if st.button("Approve SOAP Note"):
-    st.success("SOAP Note Approved Successfully ✅")
+        st.text_area(
+            "Conversation",
+            "Doctor: What is your problem?\nPatient: I have headache for three days.",
+            height=150
+        )
+
+        # ----------------------------
+        # Editable SOAP Note
+        # ----------------------------
+
+        st.subheader("SOAP Note")
+
+        subjective = st.text_area(
+            "Subjective",
+            soap["Subjective"]
+        )
+
+        objective = st.text_area(
+            "Objective",
+            soap["Objective"]
+        )
+
+        assessment = st.text_area(
+            "Assessment",
+            soap["Assessment"]
+        )
+
+        plan = st.text_area(
+            "Plan",
+            soap["Plan"]
+        )
+
+        # ----------------------------
+        # ICD Recommendation
+        # ----------------------------
+
+        st.subheader("ICD Recommendation")
+
+        st.success(f"{icd['ICD10']} - {icd['Disease']}")
+
+        st.write(icd["Description"])
+
+        # ----------------------------
+        # Approve Button
+        # ----------------------------
+
+        if st.button("Approve SOAP Note"):
+
+            st.success("SOAP Note Approved Successfully ✅")
+
+    else:
+
+        st.error("Could not connect to FastAPI.")
+
+except Exception:
+
+    st.error("FastAPI Server is not running.\n\nFirst run:\nuvicorn main:app --reload")
