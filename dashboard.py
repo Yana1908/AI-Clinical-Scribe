@@ -62,11 +62,12 @@ try:
         # ----------------------------
         # ICD Recommendation
         # ----------------------------
+        icd = data["ICD_Recommendation"]
 
         st.subheader("ICD Recommendation")
 
         st.success(f"{icd['ICD10']} - {icd['Disease']}")
-
+        st.write("Description:")
         st.write(icd["Description"])
 
         # ----------------------------
