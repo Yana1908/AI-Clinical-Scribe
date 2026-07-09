@@ -2,18 +2,47 @@ import streamlit as st
 import requests
 import json
 import os
+from datetime import datetime
 
-st.set_page_config(page_title="AI Clinical Scribe", page_icon="🏥")
+# ----------------------------
+# Page Configuration
+# ----------------------------
+
+st.set_page_config(
+    page_title="AI Clinical Scribe",
+    page_icon="🏥",
+    layout="wide"
+)
+
+# ----------------------------
+# Sidebar
+# ----------------------------
+
+st.sidebar.title("👨‍⚕️ Doctor Panel")
+st.sidebar.write("AI Clinical Scribe")
+st.sidebar.write("Internship Project")
+st.sidebar.success("Status: Active")
+
+st.sidebar.markdown("---")
+st.sidebar.write("Developer")
+st.sidebar.write("Yana Midha")
+
+# ----------------------------
+# Main Title
+# ----------------------------
 
 st.title("🏥 AI Clinical Scribe Dashboard")
 
 st.write("Welcome Doctor!")
 
+st.info(f"Current Date & Time: {datetime.now().strftime('%d-%m-%Y %H:%M:%S')}")
+
 # ----------------------------
-# Get data from FastAPI
+# Connect FastAPI
 # ----------------------------
 
 try:
+
     response = requests.get("http://127.0.0.1:8000/soap")
 
     if response.status_code == 200:
@@ -27,19 +56,23 @@ try:
         # Transcript
         # ----------------------------
 
-        st.subheader("Transcript")
+        st.divider()
 
-        st.text_area(
+        st.subheader("📝 Transcript")
+
+        transcript = st.text_area(
             "Conversation",
             "Doctor: What is your problem?\nPatient: I have headache for three days.",
             height=150
         )
 
         # ----------------------------
-        # Editable SOAP Note
+        # SOAP Note
         # ----------------------------
 
-        st.subheader("SOAP Note")
+        st.divider()
+
+        st.subheader("📋 Editable SOAP Note")
 
         subjective = st.text_area(
             "Subjective",
@@ -61,10 +94,6 @@ try:
             soap["Plan"]
         )
 
-        # ----------------------------
-        # Final SOAP Note
-        # ----------------------------
-
         final_note = {
             "Subjective": subjective,
             "Objective": objective,
@@ -76,7 +105,9 @@ try:
         # ICD Recommendation
         # ----------------------------
 
-        st.subheader("ICD Recommendation")
+        st.divider()
+
+        st.subheader("💊 ICD Recommendation")
 
         st.success(f"{icd['ICD10']} - {icd['Disease']}")
 
@@ -85,27 +116,56 @@ try:
         st.write(icd["Description"])
 
         # ----------------------------
-        # Approve Button
+        # Buttons
         # ----------------------------
 
-        if st.button("Approve SOAP Note"):
-            st.success("SOAP Note Approved Successfully ✅")
+        st.divider()
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+
+            if st.button("✅ Approve SOAP Note"):
+
+                st.success("SOAP Note Approved Successfully!")
+
+        with col2:
+
+            if st.button("💾 Save Final SOAP Note"):
+
+                os.makedirs("outputs", exist_ok=True)
+
+                with open("outputs/final_soap.json", "w") as file:
+                    json.dump(final_note, file, indent=4)
+
+                st.success("SOAP Note Saved Successfully!")
 
         # ----------------------------
-        # Save Final SOAP Note
+        # Display Final SOAP
         # ----------------------------
 
-        if st.button("Save Final SOAP Note"):
+        st.divider()
 
-            os.makedirs("outputs", exist_ok=True)
+        st.subheader("📄 Final SOAP Note")
 
-            with open("outputs/final_soap.json", "w") as file:
-                json.dump(final_note, file, indent=4)
-
-            st.success("Final SOAP Note Saved Successfully!")
+        st.json(final_note)
 
     else:
+
         st.error("Could not connect to FastAPI.")
 
 except Exception:
-    st.error("FastAPI Server is not running.\n\nFirst run:\nuvicorn main:app --reload")
+
+    st.error("⚠️ FastAPI Server is not running.")
+
+    st.code("uvicorn main:app --reload")
+
+# ----------------------------
+# Footer
+# ----------------------------
+
+st.divider()
+
+st.caption("🏥 AI Clinical Scribe | Internship Project")
+
+st.caption("Developed by Yana Midha")
